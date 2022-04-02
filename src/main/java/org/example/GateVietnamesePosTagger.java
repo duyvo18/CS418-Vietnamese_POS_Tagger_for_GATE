@@ -12,11 +12,8 @@ import gate.creole.metadata.*;
 
 import org.apache.log4j.Logger;
 
-// import rdrsegmenter;
-
+import rdrsegmenter.RDRsegmenter;
 import marmot.tokenize.Tokenizer;
-// TODO: add package to RDRSegmenter, recompile JAR to use as lib
-// import RDRSegmenter;
 
 @CreoleResource(
     name = "Vietnamese POS Tagger",
