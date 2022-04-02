@@ -12,6 +12,9 @@ import gate.creole.metadata.*;
 
 import org.apache.log4j.Logger;
 
+import rdrsegmenter.RDRsegmenter;
+import marmot.tokenize.Tokenizer;
+
 @CreoleResource(
     name = "Vietnamese POS Tagger",
     comment = "(A short one-line description of this PR, suitable for a tooltip in the GUI)")
