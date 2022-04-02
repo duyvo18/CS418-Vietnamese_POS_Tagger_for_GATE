@@ -52,5 +52,23 @@
 			The site https://search.maven.org/ can be used to search for libraries and 
 			copy-paste the XML. Any GATE plugins needed at compile
 			time should use "<scope>provided</scope>" -->
+
+		<!-- https://github.com/datquocnguyen/RDRsegmenter -->
+		<dependency>
+			<groupId>com.sample</groupId>
+			<artifactId>rdrsegmenter</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/jar/rdrsegmenter.jar</systemPath>
+		</dependency>
+
+		<!-- https://github.com/datquocnguyen/VnMarMoT -->
+		<dependency>
+			<groupId>com.sample</groupId>
+			<artifactId>marmot</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/jar/marmot.jar</systemPath>
+		</dependency>
 	</dependencies>
 </project>
