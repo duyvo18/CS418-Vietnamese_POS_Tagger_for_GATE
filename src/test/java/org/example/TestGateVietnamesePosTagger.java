@@ -1,11 +1,11 @@
 package org.example;
 
+import gate.Document;
 import gate.Factory;
 import gate.LanguageAnalyser;
 import gate.util.GateException;
 import gate.test.GATEPluginTests;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 
 /**
@@ -22,7 +22,9 @@ public class TestGateVietnamesePosTagger extends GATEPluginTests {
   public void testSomething() throws GateException {
     LanguageAnalyser pr = (LanguageAnalyser)Factory.createResource("org.example.GateVietnamesePosTagger");
     try {
-      // testing code goes here
+      Document doc = Factory.newDocument("https://vi.wikipedia.org/wiki/Ti%E1%BA%BFng_Vi%E1%BB%87t");
+      pr.setDocument(doc);
+      pr.execute();
     } finally {
       Factory.deleteResource(pr);
     }
