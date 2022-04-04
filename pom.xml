@@ -59,7 +59,7 @@
 			<artifactId>rdrsegmenter</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/resources/jar/rdrsegmenter.jar</systemPath>
+			<systemPath>${project.basedir}/src/main/resources/resources/rdrsegmenter.jar</systemPath>
 		</dependency>
 
 		<!-- https://github.com/datquocnguyen/VnMarMoT -->
@@ -68,7 +68,7 @@
 			<artifactId>marmot</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/resources/jar/marmot.jar</systemPath>
+			<systemPath>${project.basedir}/src/main/resources/resources/marmot.jar</systemPath>
 		</dependency>
 
 		<dependency>

@@ -22,7 +22,7 @@ public class TestGateVietnamesePosTagger extends GATEPluginTests {
   public void testSomething() throws GateException {
     LanguageAnalyser pr = (LanguageAnalyser)Factory.createResource("org.example.GateVietnamesePosTagger");
     try {
-      Document doc = Factory.newDocument("https://vi.wikipedia.org/wiki/Ti%E1%BA%BFng_Vi%E1%BB%87t");
+      Document doc = Factory.newDocument("https://drive.google.com/file/d/1O-w0USGPdIY54c9IPnx-rrHt8hpmsE5W/view?usp=sharing");
       pr.setDocument(doc);
       pr.execute();
     } finally {
