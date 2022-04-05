@@ -12,8 +12,10 @@ import gate.creole.metadata.*;
 
 import org.apache.log4j.Logger;
 
-import rdrsegmenter.RDRsegmenter;
-import marmot.tokenize.Tokenizer;
+// TODO: import VnCoreNLP
+// FIXME: Luu y se trung ten class Annotation cua vn.pipeline.Annotation và gate.Annotation
+import vn.pipeline.*;
+
 
 @CreoleResource(
     name = "Vietnamese POS Tagger",
