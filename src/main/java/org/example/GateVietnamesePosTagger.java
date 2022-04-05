@@ -6,10 +6,9 @@ import gate.creole.metadata.*;
 
 import gate.util.InvalidOffsetException;
 
-import rdrsegmenter.RDRsegmenter;
-import marmot.tokenize.openlp.OpenNlpTokenizer;
-
-import java.io.IOException;
+// TODO: import VnCoreNLP
+// FIXME: Luu y se trung ten class Annotation cua vn.pipeline.Annotation và gate.Annotation
+import vn.pipeline.*;
 
 @CreoleResource(
     name = "Vietnamese POS Tagger",
@@ -90,25 +89,24 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
 
 
 
-    // get the document
-    Document doc = getDocument();
-    if (doc != null)
-    {
-      // get all sentences as segmented by ANNIE Sentence Splitter
-      AnnotationSet sentenceAnnoSet = doc.getAnnotations(ANNIEConstants.SENTENCE_ANNOTATION_TYPE);
-      for (Annotation sentenceAnno : sentenceAnnoSet) {
-        try {
-          String sentence = doc.getContent().getContent(sentenceAnno.getStartNode().getOffset(), sentenceAnno.getEndNode().getOffset()).toString();
-          RDRsegmenter segmenter = new RDRsegmenter();
-
-          String segmentedSentence = segmenter.segmentRawString(sentence);
-          System.out.println(segmentedSentence);
-        } catch (InvalidOffsetException | IOException e) {
-          e.printStackTrace();
-        }
-      }
-    }
+//    // get the document
+//    Document doc = getDocument();
+//    if (doc != null)
+//    {
+//      // get all sentences as segmented by ANNIE Sentence Splitter
+//      AnnotationSet sentenceAnnoSet = doc.getAnnotations(ANNIEConstants.SENTENCE_ANNOTATION_TYPE);
+//      for (Annotation sentenceAnno : sentenceAnnoSet) {
+//        try {
+//          String sentence = doc.getContent().getContent(sentenceAnno.getStartNode().getOffset(), sentenceAnno.getEndNode().getOffset()).toString();
+//          RDRsegmenter segmenter = new RDRsegmenter();
+//
+//          String segmentedSentence = segmenter.segmentRawString(sentence);
+//          System.out.println(segmentedSentence);
+//        } catch (InvalidOffsetException | IOException e) {
+//          e.printStackTrace();
+//        }
+//      }
+//    }
   }
-
 }
 
