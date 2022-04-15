@@ -5,6 +5,14 @@ import gate.LanguageAnalyser;
 import gate.util.GateException;
 import gate.test.GATEPluginTests;
 import org.junit.Test;
+
+/**
+ * TODO:
+ *  ============   IMPORTANT   ============
+ *  Download vncorenlp.jar from
+ *  https://drive.google.com/file/d/1F6HlPp7J2dah_wShbBH2djJaL7kKH7XF/view
+ *  and save the file to src/main/resources/resources/vncorenlp.jar
+ */
 import vn.pipeline.Annotation;
 import vn.pipeline.VnCoreNLP;
 import vn.pipeline.Word;
