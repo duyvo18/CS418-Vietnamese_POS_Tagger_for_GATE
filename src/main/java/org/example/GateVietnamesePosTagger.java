@@ -6,8 +6,15 @@ import gate.creole.metadata.*;
 
 import gate.util.InvalidOffsetException;
 
-// TODO: import VnCoreNLP
-// FIXME: Luu y se trung ten class Annotation cua vn.pipeline.Annotation và gate.Annotation
+/**
+ * TODO:
+ *  ============   IMPORTANT   ============
+ *  Download vncorenlp.jar from
+ *  https://drive.google.com/file/d/1F6HlPp7J2dah_wShbBH2djJaL7kKH7XF/view
+ *  and save the file to src/main/resources/resources/vncorenlp.jar
+ */
+
+// TODO: Luu y se trung ten class Annotation cua vn.pipeline.Annotation và gate.Annotation
 import vn.pipeline.*;
 
 @CreoleResource(

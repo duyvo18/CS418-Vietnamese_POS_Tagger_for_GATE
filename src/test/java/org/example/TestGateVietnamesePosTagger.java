@@ -7,6 +7,14 @@ import gate.util.GateException;
 import gate.test.GATEPluginTests;
 import marmot.util.Sys;
 import org.junit.Test;
+
+/**
+ * TODO:
+ *  ============   IMPORTANT   ============
+ *  Download vncorenlp.jar from
+ *  https://drive.google.com/file/d/1F6HlPp7J2dah_wShbBH2djJaL7kKH7XF/view
+ *  and save the file to src/main/resources/resources/vncorenlp.jar
+ */
 import vn.pipeline.Annotation;
 import vn.pipeline.VnCoreNLP;
 import vn.pipeline.Word;
@@ -27,24 +35,24 @@ public class TestGateVietnamesePosTagger extends GATEPluginTests {
 
   @Test
   public void testSomething() throws GateException {
-    LanguageAnalyser pr = (LanguageAnalyser)Factory.createResource("org.example.GateVietnamesePosTagger");
+    LanguageAnalyser pr =
+            (LanguageAnalyser)Factory.createResource("org.example.GateVietnamesePosTagger");
     try {
-      // TODO: vocab directory
-      // TODO: check vn/corenlp/wordsegmenter/WordSegmenter.java
+      // testing code goes here
 
-      String str = "Tiếng Việt, cũng gọi là tiếng Việt Nam hay Việt ngữ là ngôn ngữ của người Việt " +
-              "và là ngôn ngữ chính thức tại Việt Nam. Đây là tiếng mẹ đẻ của khoảng 85% dân cư Việt Nam " +
-              "cùng với hơn 4 triệu Việt kiều.";
-      VnCoreNLP pipeline =
-              new VnCoreNLP(
-                      new String[]{"wseg", "pos"},
-                      Objects.requireNonNull(getClass().getResource("/resources/models")).getPath()
-              );
+      String str = "Tiếng Việt, cũng gọi là tiếng Việt Nam hay Việt ngữ "
+              + "là ngôn ngữ của người Việt và là ngôn ngữ chính thức tại Việt Nam. "
+              + "Đây là tiếng mẹ đẻ của khoảng 85% dân cư Việt Nam cùng với hơn 4 triệu Việt kiều. "
+              + "Tiếng Việt còn là ngôn ngữ thứ hai của các dân tộc thiểu số tại Việt Nam "
+              + "và là ngôn ngữ dân tộc thiểu số được công nhận tại Cộng hòa Séc.";
+
+      VnCoreNLP pipeline = new VnCoreNLP(new String[]{"wseg", "pos"});
       Annotation vnCoreAnno = new Annotation(str);
       pipeline.annotate(vnCoreAnno);
+
       for (Word word : vnCoreAnno.getWords())
       {
-        System.out.println(word.getForm() + " " + word.getPosTag());
+        System.out.println(word.getForm() + ": " + word.getPosTag());
       }
     } catch (IOException e) {
       e.printStackTrace();
