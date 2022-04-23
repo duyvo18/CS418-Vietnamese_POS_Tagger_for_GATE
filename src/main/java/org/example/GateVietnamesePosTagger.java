@@ -5,57 +5,51 @@ import gate.creole.*;
 import gate.creole.metadata.*;
 
 import gate.util.InvalidOffsetException;
-
-/**
- * TODO:
- *  ============   IMPORTANT   ============
- *  Download vncorenlp.jar from
- *  https://drive.google.com/file/d/1F6HlPp7J2dah_wShbBH2djJaL7kKH7XF/view
- *  and save the file to src/main/resources/resources/vncorenlp.jar
- */
-
-// TODO: Luu y se trung ten class Annotation cua vn.pipeline.Annotation và gate.Annotation
+import org.apache.log4j.Logger;
 import vn.pipeline.*;
+import vn.pipeline.Annotation;
+
+import java.io.IOException;
 
 @CreoleResource(
     name = "Vietnamese POS Tagger",
     comment = "(A short one-line description of this PR, suitable for a tooltip in the GUI)")
 public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
 
-//  private static final Logger log = Logger.getLogger(GateVietnamesePosTagger.class);
+  private static final Logger log = Logger.getLogger(GateVietnamesePosTagger.class);
 
-//  /**
-//   * Annotation set name from which this PR will take its input annotations.
-//   */
-//  private String inputASName;
-//
-//  /**
-//   * Annotation set name into which this PR will create new annotations.
-//   */
-//  private String outputASName;
-//
-//
-//  public String getInputASName() {
-//    return inputASName;
-//  }
-//
-//  @Optional
-//  @RunTime
-//  @CreoleParameter(comment = "The annotation set used for input annotations")
-//  public void setInputASName(String inputASName) {
-//    this.inputASName = inputASName;
-//  }
-//
-//  public String getOutputASName() {
-//    return outputASName;
-//  }
-//
-//  @Optional
-//  @RunTime
-//  @CreoleParameter(comment = "The annotation set used for output annotations")
-//  public void setOutputASName(String outputASName) {
-//    this.outputASName = outputASName;
-//  }
+  /**
+   * Annotation set name from which this PR will take its input annotations.
+   */
+  private String inputASName;
+
+  /**
+   * Annotation set name into which this PR will create new annotations.
+   */
+  private String outputASName;
+
+
+  public String getInputASName() {
+    return inputASName;
+  }
+
+  @Optional
+  @RunTime
+  @CreoleParameter(comment = "The annotation set used for input annotations")
+  public void setInputASName(String inputASName) {
+    this.inputASName = inputASName;
+  }
+
+  public String getOutputASName() {
+    return outputASName;
+  }
+
+  @Optional
+  @RunTime
+  @CreoleParameter(comment = "The annotation set used for output annotations")
+  public void setOutputASName(String outputASName) {
+    this.outputASName = outputASName;
+  }
 
   /**
    * Initialize this Vietnamese POS Tagger.
@@ -63,7 +57,7 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
    * @throws ResourceInstantiationException if an error occurs during init.
    */
   public Resource init() throws ResourceInstantiationException {
-//    log.debug("Vietnamese POS Tagger is initializing");
+    log.debug("Vietnamese POS Tagger is initializing");
 
     // your initialization code here
 
@@ -84,36 +78,33 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
     }
     interrupted = false;
 
-//    Document doc = getDocument();
-//    if(doc != null) {
-//      AnnotationSet inputAS = doc.getAnnotations(inputASName);
-//      AnnotationSet outputAS = doc.getAnnotations(outputASName);
-//
-//      // do your processing here - take annotations from the inputAS and put
-//      // results into the outputAS
-//    }
+    Corpus corpus = getCorpus();
 
+    for (Document doc : corpus) {
+      AnnotationSet sentenceAnnoSet = doc.getAnnotations(ANNIEConstants.SENTENCE_ANNOTATION_TYPE);
+      for (gate.Annotation sentenceAnno  : sentenceAnnoSet) {
+        try {
+          String rawSentence = doc.getContent().getContent(
+                  sentenceAnno.getStartNode().getOffset(),
+                  sentenceAnno.getEndNode().getOffset()
+          ).toString();
 
+          VnCoreNLP pipeline = new VnCoreNLP(new String[]{"wseg", "pos"});
+          vn.pipeline.Annotation anno = new Annotation(rawSentence);
+          pipeline.annotate(anno);
 
+          for (Word tokenizedWord : anno.getWords()) {
+            log.debug(tokenizedWord.getForm() + ' ' + tokenizedWord.getPosTag());
+          }
+        } catch (InvalidOffsetException | IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  }
 
-//    // get the document
-//    Document doc = getDocument();
-//    if (doc != null)
-//    {
-//      // get all sentences as segmented by ANNIE Sentence Splitter
-//      AnnotationSet sentenceAnnoSet = doc.getAnnotations(ANNIEConstants.SENTENCE_ANNOTATION_TYPE);
-//      for (Annotation sentenceAnno : sentenceAnnoSet) {
-//        try {
-//          String sentence = doc.getContent().getContent(sentenceAnno.getStartNode().getOffset(), sentenceAnno.getEndNode().getOffset()).toString();
-//          RDRsegmenter segmenter = new RDRsegmenter();
-//
-//          String segmentedSentence = segmenter.segmentRawString(sentence);
-//          System.out.println(segmentedSentence);
-//        } catch (InvalidOffsetException | IOException e) {
-//          e.printStackTrace();
-//        }
-//      }
-//    }
+  public static void main(String[] args) {
+
   }
 }
 

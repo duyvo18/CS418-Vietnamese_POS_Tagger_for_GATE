@@ -5,4 +5,5 @@
 	For example to require ANNIE you would include the following:
 	<REQUIRES GROUP="uk.ac.gate.plugins" ARTIFACT="annie" VERSION="9.0"/>
 	-->
+	<JAR SCAN="true">GateVietnamesePosTagger.jar</JAR>
 </CREOLE-DIRECTORY>

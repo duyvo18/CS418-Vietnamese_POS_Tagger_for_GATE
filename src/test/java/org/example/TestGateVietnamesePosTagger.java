@@ -1,27 +1,17 @@
 package org.example;
 
-import gate.Document;
 import gate.Factory;
 import gate.LanguageAnalyser;
-import gate.util.GateException;
+import gate.creole.ResourceInstantiationException;
 import gate.test.GATEPluginTests;
-import marmot.util.Sys;
+
 import org.junit.Test;
 
-/**
- * TODO:
- *  ============   IMPORTANT   ============
- *  Download vncorenlp.jar from
- *  https://drive.google.com/file/d/1F6HlPp7J2dah_wShbBH2djJaL7kKH7XF/view
- *  and save the file to src/main/resources/resources/vncorenlp.jar
- */
 import vn.pipeline.Annotation;
 import vn.pipeline.VnCoreNLP;
 import vn.pipeline.Word;
 
 import java.io.IOException;
-import java.util.Objects;
-
 
 /**
  * Using this class automatically prepares GATE and the plugin for testing.
@@ -34,11 +24,11 @@ import java.util.Objects;
 public class TestGateVietnamesePosTagger extends GATEPluginTests {
 
   @Test
-  public void testSomething() throws GateException {
-    LanguageAnalyser pr =
-            (LanguageAnalyser)Factory.createResource("org.example.GateVietnamesePosTagger");
+  public void testSomething() {
+    LanguageAnalyser pr = null;
     try {
       // testing code goes here
+      pr = (LanguageAnalyser)Factory.createResource("org.example.GateVietnamesePosTagger");
 
       String str = "Tiếng Việt, cũng gọi là tiếng Việt Nam hay Việt ngữ "
               + "là ngôn ngữ của người Việt và là ngôn ngữ chính thức tại Việt Nam. "
@@ -54,10 +44,11 @@ public class TestGateVietnamesePosTagger extends GATEPluginTests {
       {
         System.out.println(word.getForm() + ": " + word.getPosTag());
       }
-    } catch (IOException e) {
+    } catch (IOException | ResourceInstantiationException e) {
       e.printStackTrace();
     } finally {
-      Factory.deleteResource(pr);
+      if (pr != null)
+        Factory.deleteResource(pr);
     }
   }
 }
