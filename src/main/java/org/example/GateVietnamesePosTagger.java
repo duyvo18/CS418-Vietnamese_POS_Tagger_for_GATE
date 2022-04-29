@@ -1,9 +1,11 @@
 package org.example;
 
 import gate.*;
+import gate.annotation.DefaultAnnotationFactory;
 import gate.creole.*;
 import gate.creole.metadata.*;
 
+import gate.relations.RelationSet;
 import gate.util.InvalidOffsetException;
 import org.apache.log4j.Logger;
 import vn.pipeline.*;
@@ -19,9 +21,10 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
   private static final Logger log = Logger.getLogger(GateVietnamesePosTagger.class);
 
   /**
-   * Annotation set name from which this PR will take its input annotations.
+   * Annotation set name from which this PR will take its input annotations,
+   * is defaulted to ANNIE's Sentence Splitter Annotation
    */
-  private String inputASName;
+  private String inputASName = ANNIEConstants.SENTENCE_ANNOTATION_TYPE;
 
   /**
    * Annotation set name into which this PR will create new annotations.
@@ -33,6 +36,7 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
     return inputASName;
   }
 
+  // TODO: Set inputASName is not runtime
   @Optional
   @RunTime
   @CreoleParameter(comment = "The annotation set used for input annotations")
@@ -81,7 +85,10 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
     Corpus corpus = getCorpus();
 
     for (Document doc : corpus) {
-      AnnotationSet sentenceAnnoSet = doc.getAnnotations(ANNIEConstants.SENTENCE_ANNOTATION_TYPE);
+      AnnotationSet annoSet = doc.getAnnotations();
+      RelationSet relSet = annoSet.getRelations();
+
+      AnnotationSet sentenceAnnoSet = annoSet.get(inputASName);
       for (gate.Annotation sentenceAnno  : sentenceAnnoSet) {
         try {
           String rawSentence = doc.getContent().getContent(
@@ -94,13 +101,32 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
           pipeline.annotate(anno);
 
           for (Word tokenizedWord : anno.getWords()) {
-            log.debug(tokenizedWord.getForm() + ' ' + tokenizedWord.getPosTag());
+            Long startOffset = getStartOffset(tokenizedWord, sentenceAnno);
+            Long endOffset = getEndOffset(tokenizedWord, sentenceAnno);
+
+            // TODO: validate
+            sentenceAnnoSet.add(
+                    startOffset,
+                    endOffset,
+                    tokenizedWord.getPosTag(),
+                    Factory.newFeatureMap()
+            );
           }
         } catch (InvalidOffsetException | IOException e) {
           e.printStackTrace();
         }
       }
     }
+  }
+
+  private Long getStartOffset(Word tokenizedWord, gate.Annotation sentenceAnno) {
+    // TODO: implement
+    return null;
+  }
+
+  private Long getEndOffset(Word tokenizedWord, gate.Annotation sentenceAnno) {
+    // TODO: implement
+    return null;
   }
 
   public static void main(String[] args) {
