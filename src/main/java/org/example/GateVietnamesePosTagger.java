@@ -86,9 +86,8 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
 
     for (Document doc : corpus) {
       AnnotationSet annoSet = doc.getAnnotations();
-      RelationSet relSet = annoSet.getRelations();
-
       AnnotationSet sentenceAnnoSet = annoSet.get(inputASName);
+
       for (gate.Annotation sentenceAnno  : sentenceAnnoSet) {
         try {
           String rawSentence = doc.getContent().getContent(
@@ -101,10 +100,9 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
           pipeline.annotate(anno);
 
           for (Word tokenizedWord : anno.getWords()) {
-            Long startOffset = getStartOffset(tokenizedWord, sentenceAnno);
-            Long endOffset = getEndOffset(tokenizedWord, sentenceAnno);
+            Long startOffset = getStartOffset(tokenizedWord, doc, sentenceAnno);
+            Long endOffset = getEndOffset(tokenizedWord, doc, sentenceAnno);
 
-            // TODO: validate
             sentenceAnnoSet.add(
                     startOffset,
                     endOffset,
@@ -119,13 +117,41 @@ public class GateVietnamesePosTagger extends AbstractLanguageAnalyser {
     }
   }
 
-  private Long getStartOffset(Word tokenizedWord, gate.Annotation sentenceAnno) {
+  private Long getStartOffset(Word tokenizedWord, gate.Document doc, gate.Annotation sentenceAnno) {
     // TODO: implement
+    try {
+      String rawSentence = doc.getContent().getContent(
+              sentenceAnno.getStartNode().getOffset(),
+              sentenceAnno.getEndNode().getOffset()
+      ).toString();
+
+      String word = tokenizedWord.getForm();
+
+      int idx = rawSentence.indexOf(word);
+
+      return sentenceAnno.getStartNode().getOffset() + idx;
+    } catch (InvalidOffsetException e) {
+      e.printStackTrace();
+    }
     return null;
   }
 
-  private Long getEndOffset(Word tokenizedWord, gate.Annotation sentenceAnno) {
+  private Long getEndOffset(Word tokenizedWord, gate.Document doc, gate.Annotation sentenceAnno) {
     // TODO: implement
+    try {
+      String rawSentence = doc.getContent().getContent(
+              sentenceAnno.getStartNode().getOffset(),
+              sentenceAnno.getEndNode().getOffset()
+      ).toString();
+
+      String word = tokenizedWord.getForm();
+
+      int idx = rawSentence.indexOf(word);
+
+      return sentenceAnno.getStartNode().getOffset() + idx + word.length();
+    } catch (InvalidOffsetException e) {
+      e.printStackTrace();
+    }
     return null;
   }
 
