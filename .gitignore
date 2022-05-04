@@ -23,4 +23,4 @@ log/
 target/
 
 # Large file
-/src/main/resources/vncorenlp.jar
+**/vncorenlp.jar
